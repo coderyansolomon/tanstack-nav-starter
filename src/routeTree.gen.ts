@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as BlogBlogIdIndexImport } from './routes/blog/$blogId/index'
 
 // Create/Update Routes
 
@@ -29,6 +30,11 @@ const AboutRoute = AboutImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BlogBlogIdIndexRoute = BlogBlogIdIndexImport.update({
+  path: '/blog/$blogId/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -48,6 +54,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsImport
       parentRoute: typeof rootRoute
     }
+    '/blog/$blogId/': {
+      preLoaderRoute: typeof BlogBlogIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -57,6 +67,7 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AboutRoute,
   SettingsRoute,
+  BlogBlogIdIndexRoute,
 ])
 
 /* prettier-ignore-end */
